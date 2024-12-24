@@ -1,4 +1,4 @@
-<div class="task-container">
+<div class="task-list-container">
   <mat-card>
     <mat-card-header>
       <mat-card-title>Tasks</mat-card-title>
@@ -6,9 +6,11 @@
     </mat-card-header>
 
     <mat-card-content>
-      <app-task-search></app-task-search>
-
-      <div class="action-bar">
+      <div class="actions-bar">
+        <div class="filters">
+          <app-task-search></app-task-search>
+          <app-task-filter (filterChange)="onFilterChange($event)"></app-task-filter>
+        </div>
         <button mat-raised-button color="primary" routerLink="/tasks/new">
           <mat-icon>add</mat-icon>
           New Task

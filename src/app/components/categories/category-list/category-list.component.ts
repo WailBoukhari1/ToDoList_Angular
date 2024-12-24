@@ -13,7 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   standalone: true,
   imports: [CommonModule, MaterialModule, CategoryFormComponent],
   templateUrl: './category-list.component.html',
-  styleUrls: ['./category-list.component.css']
+  styleUrls: ['./category-list.component.scss']
 })
 export class CategoryListComponent implements OnInit {
   categories$!: Observable<Category[]>;

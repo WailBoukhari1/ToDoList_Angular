@@ -1,0 +1,255 @@
+.category-container {
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 64px);
+}
+
+// Card Styling
+mat-card {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  mat-card-header {
+    background: linear-gradient(135deg, #7c3aed, #5b21b6);
+    margin: -16px -16px 0;
+    padding: 2rem 1.5rem;
+    color: white;
+    
+    mat-card-title {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+    
+    mat-card-subtitle {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1rem;
+    }
+  }
+
+  mat-card-content {
+    padding: 1.5rem;
+  }
+}
+
+// Action Bar
+.action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f8fafc;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+
+  button {
+    background: #7c3aed;
+    color: white;
+    padding: 0 1.5rem;
+    height: 3rem;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background: #6d28d9;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      transform: translateY(-1px);
+    }
+
+    mat-icon {
+      margin-right: 0.75rem;
+    }
+  }
+}
+
+// Categories List
+.categories-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #7c3aed;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    
+    .category-actions {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
+
+.category-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.category-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background-color: #f3e8ff;
+  color: #7c3aed;
+
+  mat-icon {
+    font-size: 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+
+.category-details {
+  h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #1f2937;
+  }
+
+  .category-date {
+    display: block;
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+  }
+}
+
+.category-actions {
+  display: flex;
+  gap: 0.5rem;
+  opacity: 0.7;
+  transform: translateX(10px);
+  transition: all 0.2s ease;
+
+  button {
+    width: 2.5rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    
+    mat-icon {
+      font-size: 1.25rem;
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    &[color="primary"] {
+      color: #7c3aed;
+      
+      &:hover {
+        background-color: #f3e8ff;
+      }
+    }
+
+    &[color="warn"] {
+      color: #dc2626;
+      
+      &:hover {
+        background-color: #fee2e2;
+      }
+    }
+  }
+}
+
+// Empty State
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1.5rem;
+  background-color: #f8fafc;
+  border: 2px dashed #e5e7eb;
+  
+  mat-icon {
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
+    color: #7c3aed;
+    opacity: 0.5;
+    margin-bottom: 1rem;
+  }
+  
+  p {
+    font-size: 1.125rem;
+    color: #4b5563;
+    margin-bottom: 1.5rem;
+  }
+  
+  button {
+    color: #7c3aed;
+    border-color: #7c3aed;
+    
+    &:hover {
+      background-color: #f3e8ff;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .category-container {
+    padding: 1rem;
+  }
+
+  .category-item {
+    padding: 0.75rem;
+  }
+
+  .category-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+
+    mat-icon {
+      font-size: 1.25rem;
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  .category-actions {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .action-bar {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
+
+  .category-date {
+    display: none !important;
+  }
+} 
+.category-actions[_ngcontent-ng-c1541433096] button[_ngcontent-ng-c1541433096] {
+
+    line-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    // height: 2rem !important;
+    // width: 2rem !important;
+}

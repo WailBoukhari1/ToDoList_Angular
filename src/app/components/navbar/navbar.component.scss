@@ -1,0 +1,68 @@
+mat-toolbar {
+  background: linear-gradient(135deg, #7c3aed, #5b21b6);
+  color: white;
+  padding: 0 1.5rem;
+  height: 64px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+nav {
+  display: flex;
+  gap: 0.5rem;
+  height: 100%;
+  
+  a {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    mat-icon {
+      margin-right: 0.5rem;
+      opacity: 0.9;
+    }
+    
+    span {
+      font-weight: 500;
+      letter-spacing: 0.025em;
+    }
+  }
+}
+
+.active-link {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-bottom: 3px solid white;
+}
+
+@media (max-width: 600px) {
+  mat-toolbar {
+    padding: 0 1rem;
+  }
+  
+  nav {
+    gap: 0;
+    
+    a {
+      padding: 0 0.75rem;
+      
+      span {
+        display: none;
+      }
+      
+      mat-icon {
+        margin-right: 0;
+      }
+    }
+  }
+} 

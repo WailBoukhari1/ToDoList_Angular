@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   standalone: true,
   imports: [CommonModule, MaterialModule, ReactiveFormsModule],
   templateUrl: './category-form.component.html',
-  styleUrls: ['./category-form.component.css']
+  styleUrls: ['./category-form.component.scss']
 })
 export class CategoryFormComponent {
   categoryForm: FormGroup;

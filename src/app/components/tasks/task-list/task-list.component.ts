@@ -12,18 +12,27 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { TaskSearchComponent } from '../../task-search/task-search.component';
 import { SearchService } from '../../../services/search.service';
+import { TaskFilterComponent } from '../task-filter/task-filter.component';
+import { map } from 'rxjs/operators';
+
+interface TaskFilters {
+  status?: Status;
+  priority?: Priority;
+  category?: string;
+}
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
   imports: [
     CommonModule, 
-    RouterLink, 
+    RouterLink,   
     MaterialModule, 
-    TaskSearchComponent
+    TaskSearchComponent,
+    TaskFilterComponent
   ],
   templateUrl: './task-list.component.html',
-  styleUrls: ['./task-list.component.css']
+  styleUrls: ['./task-list.component.scss']
 })
 export class TaskListComponent implements OnInit {
   tasks$: Observable<Task[]>;
@@ -82,5 +91,27 @@ export class TaskListComponent implements OnInit {
       horizontalPosition: 'end',
       verticalPosition: 'top'
     });
+  }
+
+  onFilterChange(filters: TaskFilters): void {
+    this.tasks$ = this.searchService.getFilteredTasks().pipe(
+      map(tasks => tasks.filter(task => {
+        let matches = true;
+        
+        if (filters.status) {
+          matches = matches && task.status === filters.status;
+        }
+        
+        if (filters.priority) {
+          matches = matches && task.priority === filters.priority;
+        }
+        
+        if (filters.category) {
+          matches = matches && task.categoryId === filters.category;
+        }
+        
+        return matches;
+      }))
+    );
   }
 }

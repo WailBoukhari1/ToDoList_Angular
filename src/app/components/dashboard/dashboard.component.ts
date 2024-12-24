@@ -13,7 +13,7 @@ import { MaterialModule } from '../../shared/material.module';
   standalone: true,
   imports: [CommonModule, RouterLink, MaterialModule],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
   tasks$: Observable<Task[]>;
