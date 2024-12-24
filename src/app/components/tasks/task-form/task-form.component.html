@@ -1,0 +1,87 @@
+<div class="task-form-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ isEditMode ? 'Edit' : 'Create' }} Task</mat-card-title>
+      <mat-card-subtitle>{{ isEditMode ? 'Update task details' : 'Add a new task' }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+      <mat-card-content>
+        <!-- Title -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Title</mat-label>
+          <input matInput formControlName="title" placeholder="Enter task title">
+          @if (taskForm.get('title')?.errors?.['required'] && taskForm.get('title')?.touched) {
+            <mat-error>Title is required</mat-error>
+          }
+          @if (taskForm.get('title')?.errors?.['maxlength']) {
+            <mat-error>Title cannot exceed 100 characters</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Description -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" rows="4" 
+                    placeholder="Enter task description"></textarea>
+          @if (taskForm.get('description')?.errors?.['maxlength']) {
+            <mat-error>Description cannot exceed 500 characters</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="form-row">
+          <!-- Due Date -->
+          <mat-form-field appearance="outline">
+            <mat-label>Due Date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="dueDate">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <!-- Priority -->
+          <mat-form-field appearance="outline">
+            <mat-label>Priority</mat-label>
+            <mat-select formControlName="priority">
+              @for (priority of priorities; track priority) {
+                <mat-option [value]="priority">{{ priority }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <!-- Status -->
+          <mat-form-field appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+              @for (status of statuses; track status) {
+                <mat-option [value]="status">{{ status }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Category -->
+          <mat-form-field appearance="outline">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="categoryId">
+              @for (category of categories$ | async; track category.id) {
+                <mat-option [value]="category.id">{{ category.name }}</mat-option>
+              }
+            </mat-select>
+            @if (taskForm.get('categoryId')?.errors?.['required'] && taskForm.get('categoryId')?.touched) {
+              <mat-error>Category is required</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <button mat-button type="button" (click)="onCancel()">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" 
+                [disabled]="taskForm.invalid">
+          {{ isEditMode ? 'Update' : 'Create' }}
+        </button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</div>
