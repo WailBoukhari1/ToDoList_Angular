@@ -18,7 +18,18 @@ export class CategoryService {
     return this.categories.asObservable();
   }
 
+  private isCategoryNameTaken(name: string, excludeId?: string): boolean {
+    return this.categories.value.some(category => 
+      category.name.toLowerCase() === name.toLowerCase() && 
+      category.id !== excludeId
+    );
+  }
+
   addCategory(name: string): void {
+    if (this.isCategoryNameTaken(name)) {
+      throw new Error('A category with this name already exists');
+    }
+
     const newCategory: Category = {
       id: crypto.randomUUID(),
       name,
@@ -34,6 +45,10 @@ export class CategoryService {
   }
 
   updateCategory(id: string, name: string): void {
+    if (this.isCategoryNameTaken(name, id)) {
+      throw new Error('A category with this name already exists');
+    }
+
     const currentCategories = this.categories.value;
     const updatedCategories = currentCategories.map(category => 
       category.id === id 
