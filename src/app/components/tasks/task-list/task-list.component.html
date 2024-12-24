@@ -1,4 +1,21 @@
 <div class="task-list-container">
+  <!-- Task Summary Section -->
+  <div class="task-summary">
+    <mat-card>
+      <mat-card-content class="summary-content">
+        <div class="summary-item">
+          <span class="count">{{ (tasks$ | async)?.length || 0 }}</span>
+          <span class="label">Total Tasks</span>
+        </div>
+        <div class="summary-item warning">
+          <span class="count">{{ overdueCount$ | async }}</span>
+          <span class="label">Overdue</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Task Management Section -->
   <mat-card>
     <mat-card-header>
       <mat-card-title>Tasks</mat-card-title>
@@ -6,6 +23,7 @@
     </mat-card-header>
 
     <mat-card-content>
+      <!-- Actions and Filters -->
       <div class="actions-bar">
         <div class="filters">
           <app-task-search></app-task-search>
@@ -16,76 +34,84 @@
           New Task
         </button>
       </div>
-      
-      <table mat-table [dataSource]="(tasks$ | async) ?? []" class="mat-elevation-z2">
-        <!-- Title Column -->
-        <ng-container matColumnDef="title">
-          <th mat-header-cell *matHeaderCellDef>Title</th>
-          <td mat-cell *matCellDef="let task">{{ task.title }}</td>
-        </ng-container>
 
-        <!-- Due Date Column -->
-        <ng-container matColumnDef="dueDate">
-          <th mat-header-cell *matHeaderCellDef>Due Date</th>
-          <td mat-cell *matCellDef="let task">{{ task.dueDate | date:'medium' }}</td>
-        </ng-container>
+      <!-- Task Cards -->
+      <div class="tasks">
+        @for (task of tasks$ | async; track task.id) {
+          <mat-card [ngClass]="{
+            'task-card': true,
+            'overdue': isOverdue(task),
+            'completed': task.status === 'COMPLETED'
+          }">
+            <mat-card-content>
+              <div class="task-header">
+                <h3>{{ task.title }}</h3>
+                @if (isOverdue(task)) {
+                  <mat-chip color="warn" selected>OVERDUE</mat-chip>
+                }
+              </div>
+              
+              <div class="task-details">
+                <p class="description">{{ task.description }}</p>
+                <div class="metadata">
+                  <span class="due-date" [ngClass]="{'overdue-text': isOverdue(task)}">
+                    <mat-icon>event</mat-icon>
+                    Due: {{ task.dueDate | date:'medium' }}
+                  </span>
+                  <span class="priority">
+                    <mat-icon>flag</mat-icon>
+                    <mat-chip [color]="getPriorityColor(task.priority)" selected>
+                      {{ task.priority }}
+                    </mat-chip>
+                  </span>
+                  <span class="status">
+                    <mat-icon>lens</mat-icon>
+                    <mat-chip [color]="getStatusColor(task.status)" selected>
+                      {{ task.status }}
+                    </mat-chip>
+                  </span>
+                  @if (task.categoryId) {
+                    <span class="category">
+                      <mat-icon>folder</mat-icon>
+                      {{ getCategoryName(task.categoryId) }}
+                    </span>
+                  }
+                </div>
+              </div>
 
-        <!-- Priority Column -->
-        <ng-container matColumnDef="priority">
-          <th mat-header-cell *matHeaderCellDef>Priority</th>
-          <td mat-cell *matCellDef="let task">
-            <mat-chip [color]="getPriorityColor(task.priority)" selected>
-              {{ task.priority }}
-            </mat-chip>
-          </td>
-        </ng-container>
+              <div class="task-actions">
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="editTask(task)">
+                    <mat-icon>edit</mat-icon>
+                    <span>Edit</span>
+                  </button>
+                  <button mat-menu-item (click)="toggleTaskStatus(task)">
+                    <mat-icon>{{ task.status === 'COMPLETED' ? 'refresh' : 'check' }}</mat-icon>
+                    <span>{{ task.status === 'COMPLETED' ? 'Reopen' : 'Complete' }}</span>
+                  </button>
+                  <button mat-menu-item (click)="deleteTask(task.id)" color="warn">
+                    <mat-icon>delete</mat-icon>
+                    <span>Delete</span>
+                  </button>
+                </mat-menu>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        }
 
-        <!-- Status Column -->
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef>Status</th>
-          <td mat-cell *matCellDef="let task">
-            <mat-chip [color]="getStatusColor(task.status)" selected>
-              {{ task.status }}
-            </mat-chip>
-          </td>
-        </ng-container>
-
-        <!-- Category Column -->
-        <ng-container matColumnDef="category">
-          <th mat-header-cell *matHeaderCellDef>Category</th>
-          <td mat-cell *matCellDef="let task">
-            @if (task.category) {
-              <span class="category-chip">{{ task.category.name }}</span>
-            }
-          </td>
-        </ng-container>
-
-        <!-- Actions Column -->
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef>Actions</th>
-          <td mat-cell *matCellDef="let task">
-            <button mat-icon-button color="primary" [routerLink]="['/tasks', task.id, 'edit']">
-              <mat-icon>edit</mat-icon>
+        @if ((tasks$ | async)?.length === 0) {
+          <div class="empty-state">
+            <mat-icon>assignment</mat-icon>
+            <p>No tasks found</p>
+            <button mat-stroked-button color="primary" routerLink="/tasks/new">
+              Create your first task
             </button>
-            <button mat-icon-button color="warn" (click)="deleteTask(task)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-
-      @if ((tasks$ | async)?.length === 0) {
-        <div class="empty-state">
-          <mat-icon>assignment</mat-icon>
-          <p>No tasks found</p>
-          <button mat-stroked-button color="primary" routerLink="/tasks/new">
-            Create your first task
-          </button>
-        </div>
-      }
+          </div>
+        }
+      </div>
     </mat-card-content>
   </mat-card>
 </div>

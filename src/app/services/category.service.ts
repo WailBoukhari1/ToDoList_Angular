@@ -52,4 +52,8 @@ export class CategoryService {
     this.categories.next(updatedCategories);
     this.storageService.saveCategories(updatedCategories);
   }
+
+  getCategoryById(id: string): Category | undefined {
+    return this.categories.value.find(category => category.id === id);
+  }
 }
