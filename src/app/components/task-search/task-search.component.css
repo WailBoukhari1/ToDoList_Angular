@@ -1,0 +1,8 @@
+.search-field {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  mat-icon[matPrefix] {
+    margin-right: 8px;
+    color: rgba(0, 0, 0, 0.54);
+  }
