@@ -1,0 +1,16 @@
+.category-form-dialog {
+  padding: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-form-field {
+  margin-bottom: 16px;
+}
+
+mat-dialog-actions {
+  margin: 0;
+  padding: 16px 0;
+}
