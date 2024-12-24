@@ -1,0 +1,47 @@
+<div class="category-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Categories</mat-card-title>
+      <mat-card-subtitle>Manage your task categories</mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <div class="action-bar">
+        <button mat-raised-button color="primary" (click)="openCategoryForm()">
+          <mat-icon>add</mat-icon>
+          New Category
+        </button>
+      </div>
+
+      <mat-list>
+        @for (category of categories$ | async; track category.id) {
+          <mat-list-item>
+            <mat-icon matListItemIcon>folder</mat-icon>
+            <div matListItemTitle>{{ category.name }}</div>
+            <div matListItemLine>Created on {{ category.createdAt | date:'medium' }}</div>
+            
+            <div class="list-item-actions">
+              <button mat-icon-button color="primary" (click)="openCategoryForm(category)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteCategory(category)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        }
+      </mat-list>
+
+      @if ((categories$ | async)?.length === 0) {
+        <div class="empty-state">
+          <mat-icon>folder_off</mat-icon>
+          <p>No categories found</p>
+          <button mat-stroked-button color="primary" (click)="openCategoryForm()">
+            Create your first category
+          </button>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>
