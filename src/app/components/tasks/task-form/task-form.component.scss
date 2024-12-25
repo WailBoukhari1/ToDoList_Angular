@@ -1,0 +1,95 @@
+.task-form-container {
+  padding: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+
+  mat-form-field {
+    flex: 1;
+  }
+}
+
+mat-form-field {
+  margin-bottom: 16px;
+}
+
+mat-card-actions {
+  padding: 16px;
+  margin: 0;
+}
+
+// Badge styles
+.badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+}
+
+// Priority styles
+@mixin priority-badge($bg-color, $text-color) {
+  background-color: $bg-color;
+  color: $text-color;
+}
+
+.priority {
+  &-high {
+    @include priority-badge(#dc3545, white);
+  }
+  
+  &-medium {
+    @include priority-badge(#ffc107, black);
+  }
+  
+  &-low {
+    @include priority-badge(#28a745, white);
+  }
+}
+
+// Status styles
+.status {
+  &-completed {
+    @include priority-badge(#198754, white);
+  }
+  
+  &-in-progress {
+    @include priority-badge(#0dcaf0, black);
+  }
+  
+  &-not-started {
+    @include priority-badge(#6c757d, white);
+  }
+}
+
+// Responsive styles
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .task-form-container {
+    padding: 16px;
+  }
+}
+
+// Custom snackbar styles
+::ng-deep {
+  .success-snackbar {
+    background: #4caf50;
+    color: white;
+  }
+
+  .error-snackbar {
+    background: #f44336;
+    color: white;
+  }
+} 

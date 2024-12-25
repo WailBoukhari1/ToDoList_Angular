@@ -10,7 +10,7 @@ import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MaterialModule],
   templateUrl: './task-search.component.html',
-  styleUrls: ['./task-search.component.css']
+  styleUrls: ['./task-search.component.scss']
 })
 export class TaskSearchComponent implements OnInit, OnDestroy {
   searchControl = new FormControl('');

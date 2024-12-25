@@ -8,7 +8,7 @@ import { MaterialModule } from '../../shared/material.module';
   standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive, MaterialModule],
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
   navLinks = [

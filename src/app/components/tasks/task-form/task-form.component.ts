@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { TaskService } from '../../../services/task.service';
 import { CategoryService } from '../../../services/category.service';
@@ -10,12 +10,31 @@ import { Observable } from 'rxjs';
 import { MaterialModule } from '../../../shared/material.module';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+export class CustomValidators {
+  static futureDateValidator(control: AbstractControl): ValidationErrors | null {
+    if (!control.value) return null;
+    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const inputDate = new Date(control.value);
+    
+    return inputDate < today ? { pastDate: true } : null;
+  }
+
+  static maxLength(max: number) {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) return null;
+      return control.value.length > max ? { maxLength: { max, actual: control.value.length } } : null;
+    };
+  }
+}
+
 @Component({
   selector: 'app-task-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink, MaterialModule],
   templateUrl: './task-form.component.html',
-  styleUrls: ['./task-form.component.css']
+  styleUrls: ['./task-form.component.scss']
 })
 export class TaskFormComponent implements OnInit {
   taskForm: FormGroup;
@@ -59,12 +78,22 @@ export class TaskFormComponent implements OnInit {
 
   private createForm(): FormGroup {
     return this.fb.group({
-      title: ['', [Validators.required, Validators.maxLength(100)]],
-      description: ['', [Validators.maxLength(500)]],
-      dueDate: [null],
-      priority: [Priority.MEDIUM],
-      status: [Status.PENDING],
-      categoryId: ['', Validators.required]
+      title: ['', [
+        Validators.required, 
+        Validators.minLength(3),
+        CustomValidators.maxLength(50)
+      ]],
+      description: ['', [
+        Validators.required,
+        CustomValidators.maxLength(500)
+      ]],
+      dueDate: ['', [
+        Validators.required,
+        CustomValidators.futureDateValidator
+      ]],
+      priority: ['', Validators.required],
+      status: ['', Validators.required],
+      categoryId: ['']
     });
   }
 

@@ -13,35 +13,40 @@
         </button>
       </div>
 
-      <mat-list>
+      <div class="categories-list">
         @for (category of categories$ | async; track category.id) {
-          <mat-list-item>
-            <mat-icon matListItemIcon>folder</mat-icon>
-            <div matListItemTitle>{{ category.name }}</div>
-            <div matListItemLine>Created on {{ category.createdAt | date:'medium' }}</div>
+          <div class="category-item">
+            <div class="category-content">
+              <div class="category-icon">
+                <mat-icon>folder</mat-icon>
+              </div>
+              <div class="category-details">
+                <h3>{{ category.name }}</h3>
+                <span class="category-date">Created on {{ category.createdAt | date:'medium' }}</span>
+              </div>
+            </div>
             
-            <div class="list-item-actions">
-              <button mat-icon-button color="primary" (click)="openCategoryForm(category)">
+            <div class="category-actions">
+              <button mat-icon-button color="primary" (click)="openCategoryForm(category)" matTooltip="Edit">
                 <mat-icon>edit</mat-icon>
               </button>
-              <button mat-icon-button color="warn" (click)="deleteCategory(category)">
+              <button mat-icon-button color="warn" (click)="deleteCategory(category)" matTooltip="Delete">
                 <mat-icon>delete</mat-icon>
               </button>
             </div>
-          </mat-list-item>
-          <mat-divider></mat-divider>
+          </div>
         }
-      </mat-list>
 
-      @if ((categories$ | async)?.length === 0) {
-        <div class="empty-state">
-          <mat-icon>folder_off</mat-icon>
-          <p>No categories found</p>
-          <button mat-stroked-button color="primary" (click)="openCategoryForm()">
-            Create your first category
-          </button>
-        </div>
-      }
+        @if ((categories$ | async)?.length === 0) {
+          <div class="empty-state">
+            <mat-icon>folder_off</mat-icon>
+            <p>No categories found</p>
+            <button mat-stroked-button color="primary" (click)="openCategoryForm()">
+              Create your first category
+            </button>
+          </div>
+        }
+      </div>
     </mat-card-content>
   </mat-card>
 </div>

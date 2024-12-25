@@ -88,7 +88,7 @@ export class LocalStorageService {
       }
       return task;
     });
-    this.setTasks(updatedTasks);
+    this.setTasks(updatedTasks as Task[]);
   }
 
   // Utility methods

@@ -15,10 +15,10 @@ export interface Task {
   id: string;
   title: string;
   description?: string;
-  dueDate: Date;
+  dueDate?: Date;
   priority: Priority;
   status: Status;
-  categoryId: string | null;
+  categoryId?: string;
   createdAt: Date;
   updatedAt: Date;
 }
