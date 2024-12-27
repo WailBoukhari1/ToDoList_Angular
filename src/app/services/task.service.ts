@@ -1,26 +1,33 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Status, Task } from '../models/task.model';
-import { StorageService } from './storage.service';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  private tasks = new BehaviorSubject<Task[]>([]);
-  private overdueTasksSubject = new BehaviorSubject<number>(0);
-  overdueTasks$ = this.overdueTasksSubject.asObservable();
+  private readonly tasks = new BehaviorSubject<Task[]>([]);
+  private readonly overdueTasksCount = new BehaviorSubject<number>(0);
+  
+  readonly tasks$ = this.tasks.asObservable();
+  readonly overdueTasks$ = this.overdueTasksCount.asObservable();
 
-  constructor(private storageService: StorageService) {
+  constructor(private storageService: LocalStorageService) {
+    this.initializeTasks();
+  }
+
+  private initializeTasks(): void {
     const savedTasks = this.storageService.getTasks();
     this.tasks.next(savedTasks);
+    this.updateOverdueTasks();
   }
 
   getTasks(): Observable<Task[]> {
-    return this.tasks.asObservable();
+    return this.tasks$;
   }
 
-  addTask(task: Partial<Task>): void {
+  addTask(task: Partial<Task>): Task {
     const newTask: Task = {
       id: crypto.randomUUID(),
       ...task,
@@ -28,40 +35,37 @@ export class TaskService {
       updatedAt: new Date()
     } as Task;
     
-    const currentTasks = this.tasks.value;
-    const updatedTasks = [...currentTasks, newTask];
-    
-    this.tasks.next(updatedTasks);
-    this.storageService.saveTasks(updatedTasks);
-    this.updateOverdueTasks();
+    this.updateTasks([...this.tasks.value, newTask]);
+    return newTask;
   }
 
-  updateTask(id: string, updates: Partial<Task>): void {
-    const currentTasks = this.tasks.value;
-    const updatedTasks = currentTasks.map(task => 
+  updateTask(id: string, updates: Partial<Task>): Task {
+    const updatedTasks = this.tasks.value.map(task => 
       task.id === id 
         ? { ...task, ...updates, updatedAt: new Date() }
         : task
     );
     
-    this.tasks.next(updatedTasks);
-    this.storageService.saveTasks(updatedTasks);
-    this.updateOverdueTasks();
+    this.updateTasks(updatedTasks);
+    return updatedTasks.find(t => t.id === id)!;
   }
 
   deleteTask(id: string): void {
-    const currentTasks = this.tasks.value;
-    const updatedTasks = currentTasks.filter(task => task.id !== id);
-    
-    this.tasks.next(updatedTasks);
-    this.storageService.saveTasks(updatedTasks);
-    this.updateOverdueTasks();
+    this.updateTasks(
+      this.tasks.value.filter(task => task.id !== id)
+    );
   }
 
   getTaskById(id: string): Observable<Task | undefined> {
-    return this.tasks.asObservable().pipe(
+    return this.tasks$.pipe(
       map(tasks => tasks.find(task => task.id === id))
     );
+  }
+
+  private updateTasks(tasks: Task[]): void {
+    this.tasks.next(tasks);
+    this.storageService.setTasks(tasks);
+    this.updateOverdueTasks();
   }
 
   private updateOverdueTasks(): void {
@@ -71,6 +75,6 @@ export class TaskService {
       new Date(task.dueDate) < now && 
       task.status !== Status.COMPLETED
     ).length;
-    this.overdueTasksSubject.next(overdueCount);
+    this.overdueTasksCount.next(overdueCount);
   }
 }

@@ -1,0 +1,32 @@
+// Primary Colors
+$primary: #7c3aed;
+$primary-dark: #5b21b6;
+$primary-light: #a78bfa;
+
+// Secondary Colors
+$secondary: #6b7280;
+$secondary-light: #9ca3af;
+$secondary-dark: #4b5563;
+
+// Status Colors
+$success: #16a34a;
+$warning: #d97706;
+$error: #f44336;
+$info: #3b82f6;
+
+// Background Colors
+$bg-primary: #fafafa;
+$bg-secondary: #f3f4f6;
+$bg-card: #ffffff;
+
+// Border Colors
+$border-light: rgba(0, 0, 0, 0.12);
+$border-medium: rgba(0, 0, 0, 0.24);
+
+// Text Colors
+$text-primary: rgba(0, 0, 0, 0.87);
+$text-secondary: rgba(0, 0, 0, 0.6);
+$text-disabled: rgba(0, 0, 0, 0.38);
+
+// Gradients
+$primary-gradient: linear-gradient(135deg, $primary, $primary-dark); 

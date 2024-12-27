@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-category-list',
   standalone: true,
-  imports: [CommonModule, MaterialModule, CategoryFormComponent],
+  imports: [CommonModule, MaterialModule],
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.scss']
 })

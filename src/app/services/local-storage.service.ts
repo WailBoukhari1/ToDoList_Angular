@@ -10,7 +10,10 @@ export class LocalStorageService {
   private readonly CATEGORIES_KEY = 'categories';
 
   constructor() {
-    // Initialize storage if empty
+    this.initializeStorage();
+  }
+
+  private initializeStorage(): void {
     if (!this.getTasks()) {
       this.setTasks([]);
     }
@@ -21,12 +24,11 @@ export class LocalStorageService {
 
   // Tasks
   getTasks(): Task[] {
-    const tasks = localStorage.getItem(this.TASKS_KEY);
-    return tasks ? JSON.parse(tasks) : [];
+    return this.getItem<Task[]>(this.TASKS_KEY, []);
   }
 
   setTasks(tasks: Task[]): void {
-    localStorage.setItem(this.TASKS_KEY, JSON.stringify(tasks));
+    this.setItem(this.TASKS_KEY, tasks);
   }
 
   addTask(task: Task): void {
@@ -52,12 +54,11 @@ export class LocalStorageService {
 
   // Categories
   getCategories(): Category[] {
-    const categories = localStorage.getItem(this.CATEGORIES_KEY);
-    return categories ? JSON.parse(categories) : [];
+    return this.getItem<Category[]>(this.CATEGORIES_KEY, []);
   }
 
   setCategories(categories: Category[]): void {
-    localStorage.setItem(this.CATEGORIES_KEY, JSON.stringify(categories));
+    this.setItem(this.CATEGORIES_KEY, categories);
   }
 
   addCategory(category: Category): void {
@@ -95,6 +96,16 @@ export class LocalStorageService {
   clearStorage(): void {
     localStorage.removeItem(this.TASKS_KEY);
     localStorage.removeItem(this.CATEGORIES_KEY);
+    this.initializeStorage();
+  }
+
+  private getItem<T>(key: string, defaultValue: T): T {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : defaultValue;
+  }
+
+  private setItem<T>(key: string, value: T): void {
+    localStorage.setItem(key, JSON.stringify(value));
   }
 
   getCategoryById(categoryId: string): Category | null {

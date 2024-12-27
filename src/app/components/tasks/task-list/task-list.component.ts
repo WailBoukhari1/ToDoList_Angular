@@ -10,7 +10,7 @@ import { MaterialModule } from '../../../shared/material.module';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
-import { TaskSearchComponent } from '../../task-search/task-search.component';
+import { TaskSearchComponent } from '../task-search/task-search.component';
 import { SearchService } from '../../../services/search.service';
 import { TaskFilterComponent } from '../task-filter/task-filter.component';
 import { MatMenuModule } from '@angular/material/menu';
