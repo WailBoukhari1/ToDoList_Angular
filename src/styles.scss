@@ -1,0 +1,53 @@
+@import './styles/variables';
+
+// Global styles
+* {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.mat-mdc-card {
+  border: 1px solid $border-light;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.mat-toolbar {
+  background: $primary-gradient !important;
+  color: white !important;
+}
+
+.mat-mdc-raised-button.mat-primary {
+  background-color: $primary !important;
+  
+  &:hover {
+    background-color: $primary-dark !important;
+  }
+}
+
+.mat-mdc-card-header {
+  background: $primary-gradient;
+  margin: -16px -16px 0;
+  padding: 2rem 1.5rem;
+  color: white;
+  
+  .mat-mdc-card-title {
+    color: white !important;
+  }
+  
+  .mat-mdc-card-subtitle {
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+}
+
+// Snackbar styles
+.success-snackbar {
+  background: $success;
+  color: white;
+}
+
+.error-snackbar {
+  background: $error;
+  color: white;
+}

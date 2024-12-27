@@ -1,0 +1,7 @@
+src/app/components/tasks/overdue-tasks-indicator/overdue-tasks-indicator.component.ts   <button mat-button 
+[color]="(overdueCount$ | async)! > 0 ? 'warn' : 'primary'"
+[routerLink]="['/tasks']"
+class="overdue-indicator">
+<mat-icon [class.pulse]="(overdueCount$ | async)! > 0">warning</mat-icon>
+<span>{{ overdueCount$ | async }} Overdue</span>
+</button>

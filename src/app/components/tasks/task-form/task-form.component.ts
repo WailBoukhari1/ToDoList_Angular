@@ -32,7 +32,7 @@ export class CustomValidators {
 @Component({
   selector: 'app-task-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, MaterialModule],
+  imports: [CommonModule, ReactiveFormsModule, MaterialModule],
   templateUrl: './task-form.component.html',
   styleUrls: ['./task-form.component.scss']
 })

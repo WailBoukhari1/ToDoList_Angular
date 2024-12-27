@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from '../../shared/material.module';
-import { SearchService } from '../../services/search.service';
+import { MaterialModule } from '../../../shared/material.module';
+import { SearchService } from '../../../services/search.service';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 
 @Component({

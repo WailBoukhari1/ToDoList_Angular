@@ -1,13 +1,13 @@
 .category-form-dialog {
-  padding: 1.5rem;
+  padding: 24px;
   
   h2 {
-    color: #1f2937;
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 0 0 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #f3e8ff;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   }
 }
 
@@ -16,91 +16,20 @@
 }
 
 mat-form-field {
-  margin-bottom: 1.5rem;
-  
-  ::ng-deep {
-    .mat-mdc-text-field-wrapper {
-      background-color: #f9fafb;
-      border: 1px solid #e5e7eb;
-      transition: all 0.2s ease;
-    }
-    
-    .mat-mdc-form-field-focus-overlay {
-      background-color: #f3e8ff;
-    }
-    
-    .mat-mdc-form-field-flex:hover .mat-mdc-text-field-wrapper {
-      border-color: #7c3aed;
-    }
-    
-    .mat-mdc-form-field-label {
-      color: #4b5563;
-    }
-    
-    .mat-mdc-form-field-error {
-      font-size: 0.875rem;
-      margin-top: 0.25rem;
-    }
-  }
+  margin-bottom: 16px;
 }
 
 mat-dialog-actions {
-  margin: 2rem -1.5rem -1.5rem;
-  padding: 1.25rem 1.5rem;
-  background-color: #f8fafc;
-  border-top: 1px solid #e5e7eb;
-  gap: 1rem;
+  margin: 24px -24px -24px;
+  padding: 16px 24px;
+  background-color: #fafafa;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
   
   button {
-    min-width: 120px;
-    padding: 0.5rem 1.5rem;
-    font-weight: 500;
-    letter-spacing: 0.025em;
-    transition: all 0.2s ease;
+    min-width: 88px;
     
     &[color="primary"] {
-      background-color: #7c3aed;
-      color: white;
-      
-      &:hover:not(:disabled) {
-        background-color: #6d28d9;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-      
-      &:disabled {
-        background-color: #e5e7eb;
-        color: #9ca3af;
-      }
-    }
-    
-    &[type="button"] {
-      border: 1px solid #e5e7eb;
-      
-      &:hover {
-        background-color: #f3f4f6;
-      }
+      margin-left: 8px;
     }
   }
-}
-
-// Error States
-.mat-mdc-form-field-error-wrapper {
-  padding: 0.25rem 0;
-  color: #dc2626;
-}
-
-// Animation
-@keyframes slideIn {
-  from {
-    transform: translateY(-10px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.category-form-dialog {
-  animation: slideIn 0.3s ease-out;
 } 
